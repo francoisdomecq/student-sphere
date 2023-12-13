@@ -1,0 +1,11 @@
+{
+  "watch": [
+    "app",
+    "index.ts"
+  ],
+  "ext": "ts,json",
+  "ignore": [
+    "build"
+  ],
+  "exec": "node -r tsconfig-paths/register -r ts-node/register app/index.ts"
+}

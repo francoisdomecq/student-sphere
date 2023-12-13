@@ -1,0 +1,5 @@
+node_modules
+build
+test-reports
+coverage
+environments/local.env
