@@ -1,0 +1,33 @@
+{
+  "name": "student-sphere-api",
+  "version": "1.0.0",
+  "description": "Application to create student organizations",
+  "main": "build/index.ts",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/index.js",
+    "dev": "nodemon app/index.ts"
+  },
+  "author": "François Domecq",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "knex": "^3.1.0",
+    "pg": "^8.11.3",
+    "tslib": "^2.5.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.4",
+    "@typescript-eslint/eslint-plugin": "^5.61.0",
+    "@types/pg": "^8.10.2",
+    "@typescript-eslint/parser": "^5.61.0",
+    "eslint": "^8.33.0",
+    "eslint-import-resolver-typescript": "^3.5.3",
+    "eslint-plugin-import": "^2.27.5",
+    "nodemon": "^3.0.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
