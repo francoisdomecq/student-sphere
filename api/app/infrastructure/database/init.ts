@@ -1,7 +1,7 @@
 import { Knex, knex } from "knex";
 import pg from "pg";
 
-import { logger } from "../../config/logger";
+import { logger } from "../../config";
 
 pg.types.setTypeParser(pg.types.builtins.NUMERIC, (value: string) => {
     return parseFloat(value);

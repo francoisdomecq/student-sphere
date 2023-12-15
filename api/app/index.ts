@@ -1,12 +1,9 @@
-import dotenv from "dotenv";
 import { Response, Request } from "express";
 
 import app from "./app";
-import { logger } from "./config/logger";
+import { logger } from "./config";
 
-dotenv.config();
-
-const port = process.env.PORT;
+const port = process.env.PORT ?? 3001;
 
 app.get("/", (req: Request, res: Response) => {
     logger.info("Hello World!", req);
