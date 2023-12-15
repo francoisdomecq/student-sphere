@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npx tsc",
     "start": "node dist/index.js",
-    "dev": "npx env-cmd -f ./app/environments/example.env nodemon"
+    "dev": "npx env-cmd -f environments/example.env nodemon"
   },
   "author": "François Domecq",
   "license": "ISC",
