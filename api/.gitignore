@@ -3,3 +3,4 @@ build
 test-reports
 coverage
 environments/local.env
+fr-esr-implantations_etablissements_d_enseignement_superieur_publics.csv
