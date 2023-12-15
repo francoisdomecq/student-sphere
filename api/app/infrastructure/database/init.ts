@@ -1,13 +1,15 @@
 import { Knex, knex } from "knex";
 import pg from "pg";
 
+import { logger } from "../../config/logger";
+
 pg.types.setTypeParser(pg.types.builtins.NUMERIC, (value: string) => {
     return parseFloat(value);
 });
 
 const env = process.env.NODE_ENV;
-console.info(`Bienvenue ENV : ${env}`);
-console.info(`Postgres Secure Connection : ${env !== "local"}`);
+logger.info(`Bienvenue ENV : ${env}`);
+logger.info(`Postgres Secure Connection : ${env !== "local"}`);
 
 const dbConnection: Knex.PgConnectionConfig = {
     host: process.env.PGHOST,
@@ -29,9 +31,9 @@ const database = knex({
 });
 
 database.raw("SELECT 1").then(() => {
-    console.log("Bienvenue PG: Database connected");
+    logger.info("Student-sphere PG: Database connected");
 }).catch((e: unknown) => {
-    console.log("Bienvenue PG: Database not connected");
+    logger.info("Student-sphere PG: Database not connected");
     console.log(e);
 });
 
