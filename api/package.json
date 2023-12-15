@@ -7,7 +7,7 @@
     "build": "npx tsc",
     "start": "node dist/index.js",
     "dev": "npx env-cmd -f environments/example.env nodemon",
-    "import-establishments": "npx ts-node app/scripts/import-establishments/import-establishments.ts"
+    "import-establishments": "npx env-cmd -f environments/example.env ts-node app/scripts/import-establishments/import-establishments.ts"
   },
   "author": "François Domecq",
   "license": "ISC",
@@ -20,6 +20,7 @@
     "knex": "^3.1.0",
     "pg": "^8.11.3",
     "tslib": "^2.5.0",
+    "uuid": "^9.0.1",
     "winston": "^3.11.0"
   },
   "devDependencies": {
