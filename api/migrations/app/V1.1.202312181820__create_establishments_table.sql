@@ -1,6 +1,6 @@
 create table if not exists establishments
 (
-    id       uuid not null
+    establishment_id       text not null
     constraint establishments_pk
     primary key,
     establishment_name text,
