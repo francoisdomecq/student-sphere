@@ -6,17 +6,21 @@
   "scripts": {
     "build": "npx tsc",
     "start": "node dist/index.js",
-    "dev": "npx env-cmd -f environments/example.env nodemon"
+    "dev": "npx env-cmd -f environments/example.env nodemon",
+    "import-establishments": "npx env-cmd -f environments/example.env ts-node app/scripts/import-establishments/import-establishments.ts"
   },
   "author": "François Domecq",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "csv-parse": "^5.5.3",
+    "csv-stringify": "^6.4.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "knex": "^3.1.0",
     "pg": "^8.11.3",
     "tslib": "^2.5.0",
+    "uuid": "^9.0.1",
     "winston": "^3.11.0"
   },
   "devDependencies": {
