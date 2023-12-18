@@ -1,13 +1,18 @@
-import { randomUUID } from "crypto";
 import * as fs from "fs";
 import path from "path";
 
 import { parse } from "csv-parse";
+import { Knex } from "knex";
 
-import { insertEstablishments } from "../../../domains/user/data-access";
+import database from "@student-sphere-infrastructure/database";
+import { logger } from "@student-sphere-root/config";
+import { insertEstablishments } from "@student-sphere-root/scripts/import-establishments/data-access";
+
 import { Establishment, EstablishmentDbRow } from "../types/establishment";
 
-const ESTABLISHMENTS_COLUMNS = [ undefined, undefined, undefined, "establishmentName", undefined, undefined, undefined, undefined, undefined, "establishmentType", undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, "establishmentPostalCode", "establishmentCity", undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined ];
+const CHUNK_SIZE = 1000;
+
+const ESTABLISHMENTS_COLUMNS = [ undefined, undefined, undefined, "establishmentName", undefined, undefined, undefined, undefined, undefined, "establishmentType", "establishmentId", undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, "establishmentPostalCode", "establishmentCity", undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined ];
 const ESTABLISHMENTS_FILE_NAME = "fr-esr-implantations_etablissements_d_enseignement_superieur_publics.csv";
 const ESTABLISHMENTS_FILE_PATH = `app/scripts/import-establishments/file/${ESTABLISHMENTS_FILE_NAME}`;
 
@@ -15,38 +20,59 @@ const establishmentParser = parse({
     delimiter: ";",
     bom: true,
     quote: "\"",
-    columns: ESTABLISHMENTS_COLUMNS
+    columns: ESTABLISHMENTS_COLUMNS,
+    from: 2
 });
 
-const parseEstablishmentsRow = (establishment: Establishment): EstablishmentDbRow => {
-    const { establishmentName, establishmentType, establishmentPostalCode, establishmentCity } = establishment;
+const parseEstablishmentsRow = (establishment: Establishment): EstablishmentDbRow | undefined => {
+    const {
+        establishmentName,
+        establishmentType,
+        establishmentPostalCode,
+        establishmentCity,
+        establishmentId
+    } = establishment;
+    if (!establishmentName || !establishmentPostalCode) {
+        return undefined;
+    }
     return {
-        id: randomUUID(),
-        establishment_name: establishmentName,
-        establishment_type: establishmentType,
-        establishment_city_name: establishmentCity,
-        establishment_postal_code: establishmentPostalCode
+        establishment_id: establishmentId, establishment_name: establishmentName, establishment_type: establishmentType,
+        establishment_city_name: establishmentCity, establishment_postal_code: establishmentPostalCode
     };
 };
 
-const parseEstablishments = async (stream: fs.ReadStream) => {
-    const establishmentsChunk: EstablishmentDbRow[] = [];
+const parseEstablishments = async (stream: fs.ReadStream, transaction: Knex.Transaction) => {
+    const establishmentsChunk: Set<EstablishmentDbRow> = new Set();
     for await (const establishment of stream.pipe(establishmentParser)) {
         const parsedEstablishmentDbRow = parseEstablishmentsRow(establishment);
-        establishmentsChunk.push(parsedEstablishmentDbRow);
+        const isValidForInsert = parsedEstablishmentDbRow && establishmentsChunk.size >= CHUNK_SIZE;
+        if (isValidForInsert) {
+            await insertEstablishments(establishmentsChunk, transaction);
+            establishmentsChunk.clear();
+            establishmentsChunk.add(parsedEstablishmentDbRow);
+        } else if (parsedEstablishmentDbRow && !establishmentsChunk.has(parsedEstablishmentDbRow)) {
+            establishmentsChunk.add(parsedEstablishmentDbRow);
+        }
     }
-    await insertEstablishments(establishmentsChunk);
+    if (establishmentsChunk.size > 0) {
+        await insertEstablishments(establishmentsChunk, transaction);
+    }
 };
 
 const importEstablishments = async () => {
+    const transaction = await database.transaction();
     const stream = fs.createReadStream(path.resolve(ESTABLISHMENTS_FILE_PATH));
     try {
-        await parseEstablishments(stream);
+        await parseEstablishments(stream, transaction);
+        await transaction.commit();
     } catch (err) {
-        console.error(err);
+        await transaction.rollback();
+        logger.error(err);
+        throw err;
     }
 };
 
 export {
+    parseEstablishmentsRow,
     importEstablishments
 };
