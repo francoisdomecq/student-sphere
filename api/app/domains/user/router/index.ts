@@ -1,11 +1,12 @@
-import { Router, Request, Response } from "express";
+import { Response, Router } from "express";
+
+import { SSRequest } from "@student-sphere-root/types";
 
 import { getAllUsers } from "../service";
 
 const userRouter = Router();
 
-const handleGetAllUsers = async (req: Request, res: Response) => {
-    console.log(req);
+const handleGetAllUsers = async (_req: SSRequest, res: Response) => {
     const result = await getAllUsers();
     res.send(result);
 };

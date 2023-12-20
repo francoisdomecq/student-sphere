@@ -32,9 +32,9 @@ const database = knex({
 
 database.raw("SELECT 1").then(() => {
     logger.info("Student-sphere PG: Database connected");
-}).catch((e: unknown) => {
+}).catch((err: unknown) => {
     logger.info("Student-sphere PG: Database not connected");
-    console.log(e);
+    throw err;
 });
 
 export { database };
