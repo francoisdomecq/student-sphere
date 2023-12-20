@@ -1,7 +1,9 @@
-import { findEstablishmentByName } from "@student-sphere-domains/establishments/data-access";
+import { findEstablishmentsByName } from "@student-sphere-domains/establishments/data-access";
+import { formatSearch } from "@student-sphere-domains/establishments/service/helpers";
 
-const searchEstablishment = async (establishmentName: string) => {
-    return findEstablishmentByName(establishmentName);
+const searchEstablishments = async (establishmentName: string | undefined) => {
+    const formattedSearch = formatSearch(establishmentName);
+    return findEstablishmentsByName(formattedSearch);
 };
 
-export { searchEstablishment };
+export { searchEstablishments };

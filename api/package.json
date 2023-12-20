@@ -13,6 +13,7 @@
   "author": "François Domecq",
   "license": "ISC",
   "dependencies": {
+    "class-validator": "^0.14.0",
     "cors": "^2.8.5",
     "csv-parse": "^5.5.3",
     "csv-stringify": "^6.4.5",
