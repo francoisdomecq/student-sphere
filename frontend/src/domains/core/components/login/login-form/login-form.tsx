@@ -1,17 +1,30 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useAuth0 } from "@auth0/auth0-react";
+import axiosClient from "../../../../../config/axios";
 
 import "./login-form.scss";
 
 const LoginForm = () => {
     const { t } = useTranslation("core");
-    const { loginWithRedirect } = useAuth0();
+    const [username, setUsername] = useState("fradomecq@gmail.com");
+    const [password, setPassword] = useState("password");
+    const [login, setLogin] = useState(false);
+
+    const handleLogin = () => {
+        axiosClient.get("/user/auth", { params: { username, password } }).then((response) => {
+            console.log(response.data);
+        });
+    };
+
+
     return (
         <div className="login-form">
             <h1>{t("login-form.title")}</h1>
             <span>{t("login-form.message")}</span>
-            <button onClick={() => loginWithRedirect()}>{t("login-form.redirect-button")}</button>
+            <button onClick={() => {
+                handleLogin();
+            }}>{t("login-form.redirect-button")}</button>
         </div>
     );
 };

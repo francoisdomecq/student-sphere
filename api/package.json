@@ -13,6 +13,7 @@
   "author": "François Domecq",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "class-validator": "^0.14.0",
     "cors": "^2.8.5",
     "csv-parse": "^5.5.3",
@@ -28,6 +29,7 @@
     "winston": "^3.11.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.11",

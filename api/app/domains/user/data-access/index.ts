@@ -7,7 +7,17 @@ const findAllUsers = async () => {
     return database(USER_TABLE_NAME).select("*");
 };
 
+const findUser = async (username: string) => {
+    return database(USER_TABLE_NAME)
+        .select("username", "email", "password")
+        .where("username", username)
+        .orWhere("email", username)
+        .first();
+};
+
 
 export {
-    findAllUsers
+    findAllUsers,
+    findUser
 };
+ 
