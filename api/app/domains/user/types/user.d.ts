@@ -3,4 +3,9 @@ interface StudentSphereUser {
   email: string;
 }
 
-export { StudentSphereUser };
+interface AuthUser {
+  username: string;
+  password: string;
+}
+
+export { StudentSphereUser, AuthUser };

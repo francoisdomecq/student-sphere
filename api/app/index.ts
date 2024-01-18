@@ -1,9 +1,9 @@
-import { Response, Request } from "express";
+import { Request, Response } from "express";
 
 import app from "./app";
 import { logger } from "./config";
 
-const port = process.env.PORT ?? 3001;
+const port = process.env.PORT ?? 3002;
 
 app.get("/", (req: Request, res: Response) => {
     logger.info("Hello World!", req);
