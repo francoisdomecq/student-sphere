@@ -13,7 +13,11 @@ const findEstablishmentsByName = async (establishmentName: string | undefined): 
     try {
         const establishmentsDbRow: EstablishmentDbRow[] = await database(ESTABLISHMENTS_TABLE_NAME)
             .select("establishment_id", "establishment_name", "establishment_postal_code", "establishment_city_name", "establishment_type")
-            .modify((qb: Knex.QueryBuilder) => qb.whereILike("establishment_name", `%${establishmentName}%`));
+            .modify((qb: Knex.QueryBuilder) => {
+                if (establishmentName){
+                    qb.whereILike("establishment_name", `%${establishmentName}%`);
+                }
+            });
         return establishmentsDbRow.map((establishmentDbRow: EstablishmentDbRow) => <Establishment>camelKeys(establishmentDbRow));
     } catch (err) {
         logger.info(`Could not find establishment with name : ${establishmentName}`);

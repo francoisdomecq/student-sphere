@@ -1,6 +1,11 @@
 interface StudentSphereUser {
+  email:string;
   username: string;
-  email: string;
+  password:string;
+  idRole:string;
+  firstName: string;
+  lastName: string;
+  establishmentId: string;
 }
 
 interface AuthUser {

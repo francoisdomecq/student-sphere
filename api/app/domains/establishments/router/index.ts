@@ -1,6 +1,5 @@
 import { Response, Router } from "express";
 
-import authenticationMiddleware from "@student-sphere-config/auth";
 import { searchEstablishments } from "@student-sphere-domains/establishments/service";
 import { EstablishmentQuery } from "@student-sphere-domains/establishments/validators";
 import type { SSRequest } from "@student-sphere-root/types";
@@ -13,6 +12,6 @@ const handleGetEstablishments = async (req: SSRequest, res: Response) => {
     res.send(result);
 };
 
-establishmentRouter.get("/", authenticationMiddleware, handleGetEstablishments);
+establishmentRouter.get("/", handleGetEstablishments);
 
 export { establishmentRouter };

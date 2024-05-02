@@ -19,7 +19,7 @@ const useStoreUserInfo = () => {
         if (localUserInfo) {
             return JSON.parse(localUserInfo);
         }
-        return {};
+        return null;
     };
 
     const storeLocalUserInfo = useCallback((userInfo: UserInfos) => {

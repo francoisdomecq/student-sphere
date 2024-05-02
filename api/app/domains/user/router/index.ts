@@ -1,6 +1,7 @@
 import { Response, Router } from "express";
 
-import { UserAuthQuery } from "@student-sphere-domains/user/validators";
+import authenticationMiddleware from "@student-sphere-config/auth";
+import { UserAuthBody, UserAuthQuery } from "@student-sphere-domains/user/validators";
 import { SSRequest } from "@student-sphere-root/types";
 
 import { createUser, getAllUsers, getUser } from "../service";
@@ -19,12 +20,12 @@ const handleGetUser = async (req: SSRequest, res: Response) => {
 };
 
 const handlePostUser = async (req: SSRequest, res: Response) => {
-    const { username, password } = new UserAuthQuery(req.body);
-    const response = await createUser(username, password);
+    const userAuth = new UserAuthBody(req.body);
+    const response = await createUser(userAuth);
     res.send(response);
 };
 
-userRouter.get("/", handleGetAllUsers);
+userRouter.get("/", authenticationMiddleware, handleGetAllUsers);
 userRouter.get("/auth", handleGetUser);
 userRouter.post("/auth", handlePostUser);
 

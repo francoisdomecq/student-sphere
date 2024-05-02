@@ -3,37 +3,42 @@ import { ChangeEvent, HTMLProps } from "react";
 import "./text-input.scss";
 
 interface TextInputProps extends HTMLProps<HTMLInputElement> {
-  value: string;
+  name?:string;
+  value?: string;
   readonly?: boolean;
   className?: string;
   label?: string;
   required?: boolean;
-
+  type?:string;
+  // @ts-ignore
+  onFocus?: (event: FocusEvent<HTMLInputElement>) => void;
 }
 
 const TextInput = (props: TextInputProps) => {
     const {
-        value,
-        onChange = () => {
-        },
-        readonly, className, label, required, placeholder
+        value, readonly, className, label, required, placeholder,
+        type, onChange, onFocus,name
     } = props;
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        if (!readonly) {
+        if (!readonly && onChange) {
             onChange(event);
         }
     };
 
     return (
-        <div className="text-input">
+        <div className={`text-input ${className}`}>
             <label className="text-input__label">{label}</label>
             <input
+                name={name}
                 className="text-input__input"
                 value={value}
                 onChange={handleChange}
+                onFocus={onFocus}
                 required={required}
                 readOnly={readonly}
+                placeholder={placeholder}
+                type={type}
             />
         </div>
     );

@@ -1,7 +1,23 @@
 interface UserInfos {
-    id_role: string;
-    id_user: string;
-    name: string;
+  id_role: string;
+  id_user: string;
+  username: string;
+  email:string;
 }
 
-export { UserInfos };
+interface UserLogin {
+  username: string | undefined;
+  password: string | undefined;
+}
+
+interface UserSignIn {
+  username: string;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  establishmentId:string;
+}
+
+
+export { UserInfos, UserLogin, UserSignIn };
