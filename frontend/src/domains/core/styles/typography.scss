@@ -1,0 +1,46 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
+@import "./breakpoints";
+
+:root {
+  --title-font: 'Montserrat', sans-serif;
+  --button-font: 'Montserrat', sans-serif;
+  --text-font: 'Trebuchet MS', Helvetica, sans-serif;
+
+  --font-size-h1: 2.4rem;
+  --font-size-h2: 1.8rem;
+  --font-size-h3: 1.6rem;
+  --font-size-h4: 1.4rem;
+  --font-size-subtitle: 1.2rem;
+  --font-size-button: 1.6rem;
+  --font-size-button-tertiary: 1.4rem;
+  --font-size-navbar: 1.1rem;
+  --font-size-select: 1.2rem;
+  --font-size-list-header: 1.3rem;
+  --font-size-key-figure: 4rem;
+
+  --font-size-body-l: 1.6rem;
+  --font-size-body-m: 1.4rem;
+  --font-size-body-s: 1.2rem;
+  --font-size-body-xs: 1.2rem;
+
+  font-size: 10px;
+}
+
+@media screen and (min-width: $mobile-bp) {
+  :root {
+    --font-size-h1: 3.2rem;
+    --font-size-h2: 2.4rem;
+    --font-size-h3: 1.8rem;
+    --font-size-h4: 1.6rem;
+    --font-size-subtitle: 1.4rem;
+    --font-size-button: 1.8rem;
+    --font-size-button-tertiary: 1.6rem;
+    --font-size-navbar: 1.2rem;
+    --font-size-select: 1.4rem;
+
+    --font-size-body-l: 1.8rem;
+    --font-size-body-m: 1.6rem;
+    --font-size-body-s: 1.4rem;
+    --font-size-body-xs: 1.2rem;
+  }
+}
