@@ -1,9 +1,2 @@
 {
-  "login-form": {
-    "title": "Bienvenue sur student-sphere",
-    "message": "Veuillez vous connecter pour accéder à votre espace personnel",
-    "username-input": "Nom d'utilisateur",
-    "password-input": "Mot de passe",
-    "submit-button": "Se connecter"
-  }
 }

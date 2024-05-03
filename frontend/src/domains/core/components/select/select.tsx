@@ -6,19 +6,19 @@ import TextInput from "../text-input/text-input.tsx";
 
 import "./select.scss";
 
-interface SelectProps{
-  label:string;
-  name:string;
-  options:{label:string, value:string}[]
-  selectedValue?:string;
-  searchValue?:string;
-  onSelect: (option:{label:string,value:string}) => void;
+interface SelectProps {
+  label: string;
+  name: string;
+  options: {label: string, value: string}[]
+  selectedValue?: string;
+  searchValue?: string;
+  onSelect: (option: {label: string, value: string}) => void;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Select = (props:SelectProps)=>{
-    const { label, name, options, selectedValue, onSelect,searchValue,onChange } = props;
-    const [showList,setShowList] = useState(false);
+const Select = (props: SelectProps) => {
+    const { label, name, options, selectedValue, onSelect, searchValue, onChange } = props;
+    const [showList, setShowList] = useState(false);
 
     const handleSelectSuggestions = (event: SyntheticEvent<HTMLLIElement>) => {
         const { id, innerText } = event.currentTarget;
@@ -30,10 +30,11 @@ const Select = (props:SelectProps)=>{
         setShowList(false);
     };
 
-    const renderSuggestions = (option:{label:string, value:string}) => {
-        const { value,label:optionLabel } = option;
+    const renderSuggestions = (option: {label: string, value: string}) => {
+        const { value, label: optionLabel } = option;
         return (
-            <li key={value}  className="search-dropdown__list-item"  id={value} onClick={handleSelectSuggestions}>{optionLabel}</li>
+            <li key={value} className="search-dropdown__list-item" id={value}
+                onClick={handleSelectSuggestions}>{optionLabel}</li>
         );
     };
 
@@ -44,7 +45,7 @@ const Select = (props:SelectProps)=>{
 
     const showSuggestions = showList && options.length > 0;
     const activeClassName = showSuggestions ? "search-dropdown--active" : "";
-    const ref=useOutsideClick(handleClickOutside);
+    const ref = useOutsideClick(handleClickOutside);
 
     return (
         <div ref={ref} className={`search-dropdown ${activeClassName}`}>

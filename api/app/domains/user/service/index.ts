@@ -15,12 +15,19 @@ const getUser = async (username: string, password: string) => {
     const isUserAuthenticated = await compare(password, foundUser.password);
     if (isUserAuthenticated) {
         const tokenSecret = process.env.JWT_PRIVATE_KEY ?? "default_secret";
-        return { ...foundUser, token : sign({ username:username },tokenSecret,{ expiresIn:"12h" }) };
+        const tokenFields = {
+            username: foundUser.username,
+            firstName: foundUser.firstName,
+            lastName: foundUser.lastName,
+            email: foundUser.email,
+            establishmentId: foundUser.establishmentId
+        };
+        return { user: { ...foundUser, password: undefined }, token: sign(tokenFields, tokenSecret, { expiresIn: "12h" }) };
     }
     return null;
 };
 
-const createUser = async (userAuth:UserAuthBody) => {
+const createUser = async (userAuth: UserAuthBody) => {
     const encryptedPassword = hashSync(userAuth.password, 10);
     const userToCreate: StudentSphereUser = { ...userAuth, password: encryptedPassword, idRole: "1" };
     return insertUser(userToCreate);

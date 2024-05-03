@@ -1,8 +1,9 @@
 interface UserInfos {
-  id_role: string;
-  id_user: string;
   username: string;
-  email:string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  establishmentId: string;
 }
 
 interface UserLogin {
@@ -16,7 +17,7 @@ interface UserSignIn {
   password: string;
   firstName: string;
   lastName: string;
-  establishmentId:string;
+  establishmentId: string;
 }
 
 

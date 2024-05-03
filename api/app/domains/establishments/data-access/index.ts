@@ -14,7 +14,7 @@ const findEstablishmentsByName = async (establishmentName: string | undefined): 
         const establishmentsDbRow: EstablishmentDbRow[] = await database(ESTABLISHMENTS_TABLE_NAME)
             .select("establishment_id", "establishment_name", "establishment_postal_code", "establishment_city_name", "establishment_type")
             .modify((qb: Knex.QueryBuilder) => {
-                if (establishmentName){
+                if (establishmentName) {
                     qb.whereILike("establishment_name", `%${establishmentName}%`);
                 }
             });
@@ -25,4 +25,17 @@ const findEstablishmentsByName = async (establishmentName: string | undefined): 
     }
 };
 
-export { findEstablishmentsByName };
+const findEstablishmentById = async (establishmentId: string | undefined): Promise<Establishment> => {
+    try {
+        const establishmentDbRow: EstablishmentDbRow = await database(ESTABLISHMENTS_TABLE_NAME)
+            .select("establishment_id", "establishment_name", "establishment_postal_code", "establishment_city_name", "establishment_type")
+            .where("establishment_id", establishmentId)
+            .first();
+        return <Establishment>camelKeys(establishmentDbRow);
+    } catch (err) {
+        logger.info(`Could not find establishment with id : ${establishmentId}`);
+        throw err;
+    }
+};
+
+export { findEstablishmentsByName, findEstablishmentById };

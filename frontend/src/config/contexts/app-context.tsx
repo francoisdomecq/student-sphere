@@ -12,37 +12,31 @@ interface AppContextProps {
 
 interface AppContextInterface {
   userInfo: UserInfos;
-  setUserInfo: (value: UserInfos) => void;
-  isLoggedIn: boolean;
-  storeIsLoggedIn: () => void;
   logUser: (user: UserLogin) => void;
 }
 
 const AppContext = React.createContext <(AppContextInterface)>({} as AppContextInterface);
 
 const AppContextProvider = ({ children }: AppContextProps) => {
-    const { getLocalUserInfo, storeIsLoggedIn, getIsLoggedIn } = useStoreUserInfo();
+    const { getLocalUserInfo, storeLocalUserInfo } = useStoreUserInfo();
     const navigate = useNavigate();
 
-    const [isLoggedIn] = useState<boolean>(getIsLoggedIn());
     const [userInfo, setUserInfo] = useState<UserInfos>(getLocalUserInfo());
 
     const logUser = useCallback((user: UserLogin) => {
-        axiosClient.get("/user/auth", { params: { username: user.username, password: user.password } })
-            .then((response) => {
-                setUserInfo({ name: user.username ?? "", id_role: "1", id_user: "1" });
-                localStorage.setItem("token", response.data.token);
+        const queryParams = { params: user };
+        axiosClient.get<{user: UserInfos, token: string}>("/user/auth", queryParams)
+            .then(response => {
+                setUserInfo(response.data.user);
+                storeLocalUserInfo(response.data.user, response.data.token);
                 navigate("/home");
             });
-    }, [navigate]);
+    }, [navigate, storeLocalUserInfo]);
 
     const contextValue = useMemo(() => ({
         userInfo,
-        logUser,
-        setUserInfo,
-        isLoggedIn,
-        storeIsLoggedIn
-    }), [userInfo, setUserInfo, logUser, isLoggedIn, storeIsLoggedIn]);
+        logUser
+    }), [userInfo, logUser]);
 
     return (
         <AppContext.Provider

@@ -1,32 +1,21 @@
-import { useCallback } from "react";
-
 import { UserInfos } from "../../../domains/user/types";
 
 
 const useStoreUserInfo = () => {
 
-    const getIsLoggedIn = () => {
-        const isLoggedIn = localStorage.getItem("is-logged-in");
-        return !!isLoggedIn;
-    };
-
-    const storeIsLoggedIn = () => {
-        localStorage.setItem("is-logged-in", "true");
-    };
-
     const getLocalUserInfo = () => {
-        const localUserInfo = localStorage.getItem("user-info");
+        const localUserInfo = localStorage.getItem("user");
         if (localUserInfo) {
-            return JSON.parse(localUserInfo);
+            return JSON.parse(localUserInfo)?.user;
         }
         return null;
     };
 
-    const storeLocalUserInfo = useCallback((userInfo: UserInfos) => {
-        localStorage.setItem("user-info", JSON.stringify(userInfo));
-    }, []);
+    const storeLocalUserInfo = (userInfo: UserInfos, token: string) => {
+        localStorage.setItem("user", JSON.stringify({ user: userInfo, token }));
+    };
 
-    return { getLocalUserInfo, storeLocalUserInfo, storeIsLoggedIn, getIsLoggedIn };
+    return { getLocalUserInfo, storeLocalUserInfo };
 };
 
 export default useStoreUserInfo;

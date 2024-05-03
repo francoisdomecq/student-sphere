@@ -1,16 +1,21 @@
 interface StudentSphereUser {
-  email:string;
+  email: string;
   username: string;
-  password:string;
-  idRole:string;
+  password: string;
+  idRole: string;
   firstName: string;
   lastName: string;
   establishmentId: string;
 }
 
-interface AuthUser {
+interface StudentSphereUserDbRow {
+  email: string;
   username: string;
   password: string;
+  id_role: string;
+  first_name: string;
+  last_name: string;
+  establishment_id: string;
 }
 
-export { StudentSphereUser, AuthUser };
+export { StudentSphereUser, StudentSphereUserDbRow };
